@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} | {{articolo.nome_articolo|truncatechars:"14"}}{% endblock head_title %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h2>{{articolo.nome_articolo}}</h2>
+                <h5>{{ articolo.descrizione_articolo }}</h5>
+                <p>{{ articolo.contenuto|linebreaks }}</p>
+            </div>
+                    
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock content %}

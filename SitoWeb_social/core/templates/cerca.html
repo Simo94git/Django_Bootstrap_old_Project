@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} - Risultati Ricerca{% endblock head_title %}
+
+{% block content %}
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <h4>Post</h4>
+                <hr>
+                {% if posts %}
+                {% for post in posts %}
+                <p>{{ post.contenuto|truncatewords:"10" }}</p>
+                <p class="mb-0">by <a
+                        href="{% url 'profilo_utente' username=post.autore_post.username %}">@{{ post.autore_post.username }}</a>
+                </p>
+                <p>in <a href="{{ post.discussione.get_absolute_url }}">{{ post.discussione.titolo }}</a></p>
+                <hr>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">Nessun risultato</p>
+                {% endif %}
+            </div>
+            <div class="col-6">
+                <h4>Discussioni</h4>
+                <hr>
+                {% if discussioni %}
+                {% for discussione in discussioni %}
+                <p>∙ <a href="{{ discussione.get_absolute_url }}">{{ discussione.titolo }}</a></p>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">Nessun risultato</p>
+                {% endif %}
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h4>Utenti</h4>
+                <hr>
+                {% if users %}
+                {% for utente in users %}
+                <p><a href="{% url 'profilo_utente' username=utente.username %}"><strong>@{{ utente }}</strong></a></p>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">Nessun risultato</p>
+                {% endif %}
+            </div>
+            <div class="col-6">
+                <h4>Articoli</h4>
+                <hr>
+                {% if articoli %}
+                {% for articolo in articoli %}
+                <p>∙ <a href="{{ articolo.get_absolute_url }}">{{ articolo.nome_articolo }}</a></p>
+                {% endfor %}
+                {% else %}
+                <p class="text-muted">Nessun risultato</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock content %}
+

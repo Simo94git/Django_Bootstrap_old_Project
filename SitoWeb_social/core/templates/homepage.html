@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} | Homepage{% endblock head_title %}
+
+{% block content %}
+
+
+
+{% if request.user.is_staff %}
+<div class="row justify-content-end">
+    <div class="col-xl-3 ">
+        <div class="card-body">
+            <a class="btn btn-primary px-2 mx-0" href="{% url "crea_articolo" %}">crea articolo</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<br>
+
+
+
+{% for articolo in articoli %}
+
+
+ {% if forloop.first %}<div class="row">{% endif %}                                  
+                                    
+                                                <div class="col-lg-4">
+                                                    <div class="card bg-light h-100" style="background-color: #b1d8fa;">
+                                                            <img class="card-img-top" src="{{ articolo.immagine_articolo.url }}">
+                                                                                                                   
+                                                        <div class="card-body">                                                                                                                
+                                                                    <h4><a href="{{ articolo.get_absolute_url }}">{{ articolo.nome_articolo }}</a></h4>   
+                                                                    <h5>{{ articolo.descrizione_articolo }}</h5>                                                                 
+                                                                    <p>{{ articolo.contenuto|truncatewords:"25" }}</p>
+                                                                    {% if request.user.is_staff %}
+                                                                    <a href="{% url 'articolo_delete' id=articolo.pk pk=articolo.pk %}"><i class="far fa-trash-alt"></i></a>
+                                                                    {% endif %}
+                                                                    <p class="card-text"><small class="text-muted">{{articolo.data_di_creazione}}</small></p>
+                                                                    
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+
+
+
+
+
+             {% if forloop.counter|divisibleby:"3" or forloop.last %}</div><br>{% endif %}
+             {% if forloop.counter|divisibleby:"3" and not forloop.last %}<div class="row">{% endif %}
+
+
+{% endfor %}
+
+{% endblock content %}
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block head_title %}{{ block.super }} | Forum{% endblock head_title %}
+
+
+{% block content %}
+<div class="container">
+
+
+    {% if request.user.is_staff %}
+        <div class="row justify-content-end">
+            <div class="col-xl-3 ">
+                <div class="card-body">
+                    <a class="btn btn-primary px-2 mx-0" href="{% url "crea_sezione" %}">Crea nuova sezione</a>          
+                </div>
+            </div>         
+        </div>
+    {% endif %}
+
+    {% for sezione in lista_sezioni %}
+        <div class="card">
+            <div class="card-header pb-0 ">
+                    <h4><a href="{{ sezione.get_absolute_url }}"><strong>{{ sezione.nome_sezione }}</strong></a></h4>
+                    <p>{{ sezione.descrizione }}</p> 
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-3" style="font-size: 16px">
+                        <img src="{{ sezione.logo_sezione.url }}" style="max-width:95%">
+                        <p >Discussioni scritte: {{ sezione.discussione_set.count }}
+                        <br>Messaggi Totali: {{ sezione.ottieni_numero_post_in_sezione }}</p>
+                    </div>
+                    <div class="col-xl-9">
+                        <h5>Ultime discussioni</h5>
+                        <div class="card">
+                            <div class="card-body ">
+                                <div class="row">
+                                    {% for discussione in sezione.ottieni_ultime_due_discussioni.all %}
+                                        <div class="col col-xl-9" style="font-size: 19px">  
+                                            <a href="{% url "visualizza_discussione" pk=discussione.pk %}">{{ discussione.titolo }}</a>
+                                                    
+                                        </div>
+                                        <div class="col-xl-3"style="font-size: 13px" >
+                                            <p class= "card-text text-left"><a href="{% url "profilo_utente" username=discussione.autore_discussione.username %}"><strong>@{{ discussione.autore_discussione }}</strong> posts:( {{ discussione.post_set.count }})</a></p>
+                                            
+                                            
+                                        </div>
+                                    {% endfor %}
+                                </div>
+  
+                                
+                            </div>
+                        </div>
+                        
+                            
+                    </div>
+
+                </div>
+                
+            </div>
+                
+        </div>
+        <br>   
+        
+        
+    {% endfor %}
+
+</div>
+
+{% endblock content %}
